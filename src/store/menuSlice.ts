@@ -1,7 +1,7 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import shopifyClient from "../api/shopifyClient";
-import { GET_MAIN_MENU_QUERY } from "../graphqul/queries";
+import shopifyClient from "@/api/shopifyClient";
+import { GET_MAIN_MENU_QUERY } from "@/graphqul/queries";
 import { MenuItem } from "@/@type/Menu";
 
 interface MenuState {
@@ -23,7 +23,7 @@ export const fetchMainMenu = createAsyncThunk(
           const response = await shopifyClient.post("", {
                query: cleanQuery,
           });
-          console.log(response.data?.data?.menu?.items, 'test!!');
+
           return response.data?.data?.menu?.items || [];
      }
 );

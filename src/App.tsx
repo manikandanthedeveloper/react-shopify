@@ -1,7 +1,6 @@
-import Layouts from "./components/layouts"
+import Layouts from "@/components/layouts"
 
 function App() {
-
   return (
     <Layouts />
   )

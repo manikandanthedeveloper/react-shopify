@@ -16,11 +16,3 @@ export const GET_MAIN_MENU_QUERY = `
     }
   }
 `;
-
-export const TEST_QUERY = `
-  {
-    shop {
-      name
-    }
-  }
-`;

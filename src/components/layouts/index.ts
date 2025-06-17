@@ -1,3 +1,3 @@
-import Layouts from "./Layouts";
+import Layouts from "@/components/layouts/Layouts";
 
 export default Layouts;
