@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
-import { fetchMainMenu } from '@/store/menuSlice';
+import { fetchMainMenu, toggleHamburger } from '@/store/menuSlice';
 import Menu from "@/components/Menu";
 import MobileMenu from "@/components/MobileMenu";
 import imgLogo from '@/assets/logo.svg';
@@ -9,17 +9,29 @@ import iconHamburger from '@/assets/icon-hamburger.svg';
 
 export default function Header() {
      const dispatch = useDispatch<AppDispatch>();
-     const { items, loading, error } = useSelector((state: RootState) => state.menu);
-     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+     const { items, loading, error, isMobileMenuOpen } = useSelector((state: RootState) => state.menu);
 
      useEffect(() => {
           dispatch(fetchMainMenu());
      }, [dispatch]);
 
-     const handleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+     const handleMobileMenu = () => dispatch(toggleHamburger());
 
-     if (loading) return <p>Loading...</p>;
-     if (error) return <p>Error: {error}</p>;
+     if (loading) {
+          return (
+               <div className="flex justify-center items-center h-screen">
+                    <p className="text-gray-600 text-lg">Loading menu...</p>
+               </div>
+          );
+     }
+
+     if (error) {
+          return (
+               <div className="flex justify-center items-center h-screen">
+                    <p className="text-red-500 text-lg">Error loading menu: {error}</p>
+               </div>
+          );
+     }
 
      return (
           <header>

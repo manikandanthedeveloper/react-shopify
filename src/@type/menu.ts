@@ -3,5 +3,5 @@ export interface MenuItem {
      title: string;
      url: string;
      type: string;
-     items?: MenuItem[]
+     items?: MenuItem[];
 }

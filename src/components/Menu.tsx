@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { MenuItem } from '@/@type/Menu';
+import { toggleDropdown } from '@/store/menuSlice';
 import iconCart from '@/assets/icon-cart.svg';
 import iconAngleDown from '@/assets/icon-angle-down.svg';
 
-interface MenuProps {
-     items: MenuItem[];
-}
+const Menu: React.FC<{ items: MenuItem[] }> = ({ items }) => {
+     const dispatch = useDispatch();
+     const openDropdownId = useSelector((state: any) => state.menu.openDropdownId);
 
-const Menu: React.FC<MenuProps> = ({ items }) => {
-     const [openDropdownId, setOpenDropdownId] = useState(null);
-
-     const toggleDropdown = (id: any) => {
-          setOpenDropdownId(openDropdownId === id ? null : id);
-     };
+     const handleToggle = (id: string) => {
+          dispatch(toggleDropdown(id));
+     }
 
      return (
           <>
@@ -21,7 +20,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
                     {items?.map((item) => (
                          <li key={item.id} className="relative">
                               <button
-                                   onClick={() => toggleDropdown(item.id)}
+                                   onClick={() => handleToggle(item.id)}
                                    className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4 flex items-center focus:outline-none cursor-pointer"
                               >
                                    <span>{item.title}</span>

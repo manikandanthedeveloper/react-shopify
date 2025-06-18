@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
 import { MenuItem } from "@/@type/Menu";
+import { toggleMobileDropdown } from "@/store/menuSlice";
 import iconAngleRight from '@/assets/icon-angle-right.svg';
 import iconAngleDown from '@/assets/icon-angle-down.svg';
 
-interface MenuProps {
-     items: MenuItem[];
-     isMobileMenuOpen: boolean;
-}
+const MobileMenu: React.FC<{ items: MenuItem[], isMobileMenuOpen: boolean }> = ({ items, isMobileMenuOpen }) => {
 
-const MobileMenu: React.FC<MenuProps> = ({ items, isMobileMenuOpen }) => {
-     const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+     const dispatch = useDispatch();
+     const openDropdownId = useSelector((state: RootState) => state.menu.openMobileDropdownId);
 
-     const toggleDropdown = (id: string) => {
-          setOpenDropdownId(openDropdownId === id ? null : id);
+     const handleToggle = (id: string) => {
+          dispatch(toggleMobileDropdown(id));
      };
+
 
      return (
           <div className={`block sm:hidden bg-white border-t-2 py-2 transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
@@ -22,7 +23,7 @@ const MobileMenu: React.FC<MenuProps> = ({ items, isMobileMenuOpen }) => {
                     {items?.map((item) => (
                          <li key={item.id} className="relative">
                               <button
-                                   onClick={() => toggleDropdown(item.id)}
+                                   onClick={() => handleToggle(item.id)}
                                    className="w-full text-left text-gray-800 text-sm font-semibold hover:text-purple-600 flex items-center justify-between py-2"
                               >
                                    <span>{item.title}</span>

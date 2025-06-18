@@ -8,12 +8,18 @@ interface MenuState {
      items: MenuItem[];
      loading: boolean;
      error: string | null;
+     openDropdownId: string | null;
+     openMobileDropdownId: string | null;
+     isMobileMenuOpen: boolean;
 }
 
 const initialState: MenuState = {
      items: [],
      loading: false,
      error: null,
+     openDropdownId: null,
+     openMobileDropdownId: null,
+     isMobileMenuOpen: false,
 };
 
 export const fetchMainMenu = createAsyncThunk(
@@ -31,7 +37,19 @@ export const fetchMainMenu = createAsyncThunk(
 const mainMenuSlice = createSlice({
      name: "mainmenu",
      initialState,
-     reducers: {},
+     reducers: {
+          toggleDropdown: (state, action) => {
+               const id = action.payload;
+               state.openDropdownId = state.openDropdownId === id ? null : id;
+          },
+          toggleMobileDropdown: (state, action) => {
+               const id = action.payload;
+               state.openMobileDropdownId = state.openMobileDropdownId === id ? null : id;
+          },
+          toggleHamburger: (state) => {
+               state.isMobileMenuOpen = !state.isMobileMenuOpen;
+          }
+     },
      extraReducers: (builder) => {
           builder
                .addCase(fetchMainMenu.pending, (state) => {
@@ -50,3 +68,5 @@ const mainMenuSlice = createSlice({
 });
 
 export default mainMenuSlice.reducer;
+export const { toggleDropdown, toggleMobileDropdown, toggleHamburger } = mainMenuSlice.actions;
+
